@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sre-frontend
+  namespace: sre-edu-os
+  labels: { app: sre-frontend }
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: sre-frontend }
+  template:
+    metadata:
+      labels: { app: sre-frontend }
+    spec:
+      containers:
+        - name: web
+          image: YOUR_ECR_URI/sre-frontend:latest
+          ports: [{ containerPort: 4000 }]
+          env:
+            - name: NEXT_PUBLIC_API_URL
+              valueFrom:
+                secretKeyRef: { name: sre-secrets, key: API_URL }
+          resources:
+            requests: { cpu: 200m, memory: 256Mi }
+            limits:   { cpu: 500m, memory: 512Mi }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sre-frontend-svc
+  namespace: sre-edu-os
+spec:
+  selector: { app: sre-frontend }
+  ports:
+    - port: 4000
+      targetPort: 4000
+  type: ClusterIP
