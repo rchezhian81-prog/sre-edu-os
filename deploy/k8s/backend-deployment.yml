@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sre-backend
+  namespace: sre-edu-os
+  labels: { app: sre-backend }
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: sre-backend }
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: { maxSurge: 1, maxUnavailable: 0 }
+  template:
+    metadata:
+      labels: { app: sre-backend }
+    spec:
+      containers:
+        - name: api
+          image: YOUR_ECR_URI/sre-backend:latest
+          ports: [{ containerPort: 3000 }]
+          envFrom:
+            - secretRef: { name: sre-secrets }
+          env:
+            - name: NODE_ENV
+              value: production
+          resources:
+            requests: { cpu: 250m, memory: 512Mi }
+            limits:   { cpu: 1000m, memory: 1Gi }
+          livenessProbe:
+            httpGet: { path: /api/v1/health, port: 3000 }
+            initialDelaySeconds: 30
+            periodSeconds: 15
+          readinessProbe:
+            httpGet: { path: /api/v1/health, port: 3000 }
+            initialDelaySeconds: 10
+            periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sre-backend-svc
+  namespace: sre-edu-os
+spec:
+  selector: { app: sre-backend }
+  ports:
+    - port: 3000
+      targetPort: 3000
+  type: ClusterIP
