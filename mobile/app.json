@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "SRE EDU OS",
+    "slug": "sre-edu-os",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#E0E5EC"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.sreedos.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Used for bus tracking"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#E0E5EC"
+      },
+      "package": "com.sreedos.app",
+      "permissions": ["NOTIFICATIONS", "INTERNET"]
+    },
+    "plugins": [
+      "expo-router",
+      ["expo-notifications", { "icon": "./assets/notification-icon.png" }]
+    ],
+    "scheme": "sreedos",
+    "extra": {
+      "eas": { "projectId": "YOUR_EAS_PROJECT_ID" },
+      "apiUrl": "https://api.sreedos.com/api/v1"
+    }
+  }
+}
