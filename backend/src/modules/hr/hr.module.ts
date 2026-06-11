@@ -1,6 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LeaveRequest } from './hr.entity';
-// TODO: Add controller and service when implementing
-@Module({ imports:[TypeOrmModule.forFeature([LeaveRequest])], controllers:[], providers:[], exports:[] })
+import { HrController } from './hr.controller';
+import { HrService } from './hr.service';
+
+@Module({
+  imports: [TypeOrmModule.forFeature([LeaveRequest])],
+  controllers: [HrController],
+  providers: [HrService],
+  exports: [HrService],
+})
 export class HrModule {}

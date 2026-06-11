@@ -1,6 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Timetable } from './timetable.entity';
-// TODO: Add controller and service when implementing
-@Module({ imports:[TypeOrmModule.forFeature([Timetable])], controllers:[], providers:[], exports:[] })
+import { TimetableController } from './timetable.controller';
+import { TimetableService } from './timetable.service';
+
+@Module({
+  imports: [TypeOrmModule.forFeature([Timetable])],
+  controllers: [TimetableController],
+  providers: [TimetableService],
+  exports: [TimetableService],
+})
 export class TimetableModule {}

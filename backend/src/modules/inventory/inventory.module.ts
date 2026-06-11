@@ -1,6 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { InventoryItem } from './inventory.entity';
-// TODO: Add controller and service when implementing
-@Module({ imports:[TypeOrmModule.forFeature([InventoryItem])], controllers:[], providers:[], exports:[] })
+import { InventoryController } from './inventory.controller';
+import { InventoryService } from './inventory.service';
+
+@Module({
+  imports: [TypeOrmModule.forFeature([InventoryItem])],
+  controllers: [InventoryController],
+  providers: [InventoryService],
+  exports: [InventoryService],
+})
 export class InventoryModule {}
